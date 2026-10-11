@@ -1,4 +1,4 @@
-# Design Document:
+DESIGN DOCUMENT:
 
 LOGISTICS AND SUPPLY CHAIN MANAGEMENT INFORMATION SYSTEM
 
@@ -8,7 +8,7 @@ OSARENKHOE IKPONMWOSA JOSEPH
 
 Video overview: <URL HERE>
 
-## Scope
+SCOPE
 
 In this section you should answer the following questions:
 

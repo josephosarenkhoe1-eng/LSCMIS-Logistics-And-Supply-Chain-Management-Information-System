@@ -1,9 +1,9 @@
 -- In this SQL file, write (and comment!) the schema of your database, including the CREATE TABLE, CREATE INDEX, CREATE VIEW, etc. statements that compose it
 
-TABLE:
-The database has 37 tables: Below are the sql schema:
+-- TABLE:
+-- The database has 37 tables: Below are the sql schema:
 
-TABLE: customers
+-- TABLE: customers
 
 CREATE TABLE customers (
     id INTEGER PRIMARY KEY,
@@ -36,7 +36,7 @@ CREATE TABLE customers (
     FOREIGN KEY (branch_id) REFERENCES branches(id)
 );
 
-TABLE: employees
+-- TABLE: employees
 
 CREATE TABLE employees (
     id INTEGER PRIMARY KEY,
@@ -69,6 +69,8 @@ CREATE TABLE employees (
     FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
+-- TABLE: suppliers
+
 CREATE TABLE suppliers (
     id INTEGER PRIMARY KEY,
     company_name TEXT NOT NULL,
@@ -97,6 +99,8 @@ CREATE TABLE suppliers (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- TABLE: shipment_requests
 
 CREATE TABLE shipment_requests (
     id INTEGER PRIMARY KEY,
@@ -180,6 +184,8 @@ CREATE TABLE shipment_requests (
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
 
+-- TABLE: shipment_request_items
+
 CREATE TABLE shipment_request_items (
     id INTEGER PRIMARY KEY,
     shipment_request_id INTEGER NOT NULL,
@@ -217,6 +223,8 @@ CREATE TABLE shipment_request_items (
     FOREIGN KEY (shipment_request_id) REFERENCES shipment_requests(id),
     FOREIGN KEY (verified_by) REFERENCES employees(id)
 );
+
+-- TABLE: branches
 
 CREATE TABLE branches (
     id INTEGER PRIMARY KEY,
@@ -260,6 +268,8 @@ CREATE TABLE branches (
     FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
 );
 
+-- TABLE: warehouses
+
 CREATE TABLE warehouses (
     id INTEGER PRIMARY KEY,
     warehouse_code TEXT NOT NULL UNIQUE,
@@ -291,6 +301,8 @@ CREATE TABLE warehouses (
 
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
+
+-- TABLE: hubs
 
 CREATE TABLE hubs (
     id INTEGER PRIMARY KEY,
@@ -331,6 +343,8 @@ CREATE TABLE hubs (
 
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
+
+-- TABLE: shipment_request_inventory
 
 CREATE TABLE shipment_request_inventory (
     id INTEGER PRIMARY KEY,
@@ -396,6 +410,8 @@ CREATE TABLE shipment_request_inventory (
     FOREIGN KEY (hub_id) REFERENCES hubs(id)
 );
 
+-- TABLE: company_inventory
+
 CREATE TABLE company_inventory (
     id INTEGER PRIMARY KEY,
     company_inventory_code TEXT NOT NULL UNIQUE,
@@ -444,6 +460,9 @@ CREATE TABLE company_inventory (
     CHECK (reorder_quantity <= maximum_quantity_level)
 );
 
+
+-- TABLE: departments
+
 CREATE TABLE departments (
     id INTEGER PRIMARY KEY,
     department_code TEXT NOT NULL UNIQUE,
@@ -458,6 +477,9 @@ CREATE TABLE departments (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+
+-- TABLE: tracking_events
 
 CREATE TABLE tracking_events (
     id INTEGER PRIMARY KEY,
@@ -507,6 +529,9 @@ CREATE TABLE tracking_events (
     UNIQUE (shipment_request_id, event_sequence)
 );
 
+
+-- TABLE: transport_assets
+
 CREATE TABLE transport_assets (
     id INTEGER PRIMARY KEY,
     transport_asset_code TEXT NOT NULL UNIQUE,
@@ -553,6 +578,9 @@ CREATE TABLE transport_assets (
         next_maintenance_date >= last_maintenance_date
     )
 );
+
+
+-- TABLE: purchase_orders
 
 CREATE TABLE purchase_orders (
     id INTEGER PRIMARY KEY,
@@ -611,6 +639,10 @@ CREATE TABLE purchase_orders (
     FOREIGN KEY (approved_by_employee_id) REFERENCES employees(id)
 );
 
+
+
+-- TABLE: purchase_order_items
+
 CREATE TABLE purchase_order_items (
     id INTEGER PRIMARY KEY,
     purchase_order_id INTEGER NOT NULL,
@@ -642,6 +674,10 @@ CREATE TABLE purchase_order_items (
 
     UNIQUE (purchase_order_id, company_inventory_id)
 );
+
+
+
+-- TABLE: goods_received
 
 CREATE TABLE goods_received (
     id INTEGER PRIMARY KEY,
@@ -683,6 +719,9 @@ CREATE TABLE goods_received (
     FOREIGN KEY (hub_id) REFERENCES hubs(id)
 );
 
+
+-- TABLE: inventory_transactions
+
 CREATE TABLE inventory_transactions (
     id INTEGER PRIMARY KEY,
     transaction_code TEXT NOT NULL UNIQUE,
@@ -721,6 +760,9 @@ CREATE TABLE inventory_transactions (
     FOREIGN KEY (warehouse_id) REFERENCES warehouses(id),
     FOREIGN KEY (hub_id) REFERENCES hubs(id)
 );
+
+
+-- TABLE: shipment_returns
 
 CREATE TABLE shipment_returns (
     id INTEGER PRIMARY KEY,
@@ -762,6 +804,9 @@ CREATE TABLE shipment_returns (
     FOREIGN KEY (employee_id) REFERENCES employees(id),
     FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
 );
+
+
+-- TABLE: customer_feedbacks
 
 CREATE TABLE customer_feedbacks (
     id INTEGER PRIMARY KEY,
@@ -814,6 +859,9 @@ CREATE TABLE customer_feedbacks (
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
 
+
+-- TABLE: payments
+
 CREATE TABLE payments (
     id INTEGER PRIMARY KEY,
     payment_code TEXT NOT NULL UNIQUE,
@@ -854,6 +902,10 @@ CREATE TABLE payments (
     FOREIGN KEY (shipment_return_id) REFERENCES shipment_returns(id),
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
+
+
+
+-- TABLE: supplier_evaluations
 
 CREATE TABLE supplier_evaluations (
     id INTEGER PRIMARY KEY,
@@ -907,6 +959,9 @@ CREATE TABLE supplier_evaluations (
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
 
+
+-- TABLE: budgets
+
 CREATE TABLE budgets (
     id INTEGER PRIMARY KEY,
     budget_code TEXT NOT NULL UNIQUE,
@@ -949,6 +1004,9 @@ CREATE TABLE budgets (
     FOREIGN KEY (employee_id) REFERENCES employees(id),
     FOREIGN KEY (approved_by_employee_id) REFERENCES employees(id)
 );
+
+
+-- TABLE: expenses
 
 CREATE TABLE expenses (
     id INTEGER PRIMARY KEY,
@@ -1009,6 +1067,9 @@ CREATE TABLE expenses (
     FOREIGN KEY (transport_asset_id) REFERENCES transport_assets(id),
     FOREIGN KEY (approved_by_employee_id) REFERENCES employees(id)
 );
+
+
+-- TABLE: environmental_impact_assessments
 
 CREATE TABLE environmental_impact_assessments (
     id INTEGER PRIMARY KEY,
@@ -1104,6 +1165,9 @@ CREATE TABLE environmental_impact_assessments (
     FOREIGN KEY (hub_id) REFERENCES hubs(id),
     FOREIGN KEY (transport_asset_id) REFERENCES transport_assets(id)
 );
+
+
+-- TABLE: compliance_assessments
 
 CREATE TABLE compliance_assessments (
     id INTEGER PRIMARY KEY,
@@ -1223,6 +1287,9 @@ CREATE TABLE compliance_assessments (
     FOREIGN KEY (transport_asset_id) REFERENCES transport_assets(id)
 );
 
+
+-- TABLE: risk_assessments
+
 CREATE TABLE risk_assessments (
     id INTEGER PRIMARY KEY,
     assessment_code TEXT NOT NULL UNIQUE,
@@ -1330,6 +1397,9 @@ CREATE TABLE risk_assessments (
     FOREIGN KEY (transport_asset_id) REFERENCES transport_assets(id)
 );
 
+
+-- TABLE: insurance_policies
+
 CREATE TABLE insurance_policies (
     id INTEGER PRIMARY KEY,
     policy_code TEXT NOT NULL UNIQUE,
@@ -1417,6 +1487,9 @@ CREATE TABLE insurance_policies (
     FOREIGN KEY (verified_by_employee_id) REFERENCES employees(id)
 );
 
+
+-- TABLE: service_level_assessments
+
 CREATE TABLE service_level_assessments (
     id INTEGER PRIMARY KEY,
     assessment_code TEXT NOT NULL UNIQUE,
@@ -1499,6 +1572,9 @@ CREATE TABLE service_level_assessments (
     FOREIGN KEY (hub_id) REFERENCES hubs(id)
 );
 
+
+-- TABLE: invoices
+
 CREATE TABLE invoices (
     id INTEGER PRIMARY KEY,
     invoice_code TEXT NOT NULL UNIQUE,
@@ -1561,6 +1637,9 @@ CREATE TABLE invoices (
     FOREIGN KEY (shipment_return_id) REFERENCES shipment_returns(id)
 );
 
+
+-- TABLE: audit_logs
+
 CREATE TABLE audit_logs (
     id INTEGER PRIMARY KEY,
     employee_id INTEGER,
@@ -1585,6 +1664,9 @@ CREATE TABLE audit_logs (
 
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
+
+
+-- TABLE: containers
 
 CREATE TABLE containers (
     id INTEGER PRIMARY KEY,
@@ -1641,6 +1723,9 @@ CREATE TABLE containers (
     FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
+
+-- TABLE: employee_leave_history
+
 CREATE TABLE employee_leave_history (
     id INTEGER PRIMARY KEY,
     employee_id INTEGER NOT NULL,
@@ -1677,6 +1762,9 @@ CREATE TABLE employee_leave_history (
     FOREIGN KEY (employee_id) REFERENCES employees(id),
     FOREIGN KEY (approved_by_employee_id) REFERENCES employees(id)
 );
+
+
+-- TABLE: employee_department_history
 
 CREATE TABLE employee_department_history (
     id INTEGER PRIMARY KEY,
@@ -1721,6 +1809,9 @@ CREATE TABLE shipment_item_classifications (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+
+-- TABLE: shipment_item_classification_assignment
+
 CREATE TABLE shipment_item_classification_assignment (
     id INTEGER PRIMARY KEY,
     shipment_request_item_id INTEGER NOT NULL,
@@ -1738,6 +1829,9 @@ CREATE TABLE shipment_item_classification_assignment (
     )
 );
 
+
+-- TABLE: shipment_item_containers
+
 CREATE TABLE shipment_item_containers (
     id INTEGER PRIMARY KEY,
     shipment_request_item_id INTEGER NOT NULL,
@@ -1754,6 +1848,9 @@ CREATE TABLE shipment_item_containers (
         container_id
     )
 );
+
+
+-- TABLE: company_inventory_locations
 
 CREATE TABLE company_inventory_locations (
     id INTEGER PRIMARY KEY,
@@ -1784,78 +1881,79 @@ CREATE TABLE company_inventory_locations (
 
 
 
-INDEXES
-LSCMIS was designed with 10 indexes to improve query performance and make the retrieval of frequently accessed records more efficient.
-Below is the schema for each index, together with its purpose.
+-- INDEXES
+-- LSCMIS was designed with 10 indexes to improve query performance and make the retrieval of frequently accessed records more efficient.
+-- Below is the schema for each index, together with its purpose.
 
 
-INDEX: idx_shipment_request_inventory_item_id — Speeds up retrieval of inventory records associated with a specific shipment request item.
+-- INDEX: idx_shipment_request_inventory_item_id — Speeds up retrieval of inventory records associated with a specific shipment request item.
 
 CREATE INDEX idx_shipment_request_inventory_item_id
 ON Shipment_Request_Inventory(shipment_request_item_id);
 
 
-INDEX: idx_shipment_item_classification_assignment_item_id — Improves retrieval of classifications assigned to a specific shipment request item.
+-- INDEX: idx_shipment_item_classification_assignment_item_id — Improves retrieval of classifications assigned to a specific shipment request item.
 
 CREATE INDEX idx_shipment_item_classification_assignment_item_id
 ON Shipment_Item_Classification_Assignment(shipment_request_item_id);
 
 
-INDEX: idx_shipment_item_containers_item_id — Speeds up retrieval of containers associated with a specific shipment request item.
+-- INDEX: idx_shipment_item_containers_item_id — Speeds up retrieval of containers associated with a specific shipment request item.
 
 CREATE INDEX idx_shipment_item_containers_item_id
 ON Shipment_Item_Containers(shipment_request_item_id);
 
 
-INDEX: idx_payments_invoice_id — Improves retrieval of payments associated with a specific invoice.
+-- INDEX: idx_payments_invoice_id — Improves retrieval of payments associated with a specific invoice.
 
 CREATE INDEX idx_payments_invoice_id
 ON Payments(invoice_id);
 
 
-INDEX: idx_shipment_requests_status — Speeds up filtering of shipment requests based on their current shipment status.
+-- INDEX: idx_shipment_requests_status — Speeds up filtering of shipment requests based on their current shipment status.
 
 CREATE INDEX idx_shipment_requests_status
 ON Shipment_Requests(shipment_status);
 
 
-INDEX: idx_tracking_events_shipment_datetime — Improves retrieval of tracking events for a specific shipment and date/time analysis.
+-- INDEX: idx_tracking_events_shipment_datetime — Improves retrieval of tracking events for a specific shipment and date/time analysis.
 
 CREATE INDEX idx_tracking_events_shipment_datetime
 ON Tracking_Events(shipment_request_id, actual_date_time);
 
 
-INDEX: idx_inventory_transactions_inventory_date — Improves retrieval of inventory transactions for a specific inventory item and date-based analysis.
+-- INDEX: idx_inventory_transactions_inventory_date — Improves retrieval of inventory transactions for a specific inventory item and date-based analysis.
 
 CREATE INDEX idx_inventory_transactions_inventory_date
 ON Inventory_Transactions(company_inventory_id, transaction_date);
 
 
-INDEX: idx_purchase_orders_supplier_status — Improves retrieval of purchase orders for a specific supplier and filtering by purchase order status.
+-- INDEX: idx_purchase_orders_supplier_status — Improves retrieval of purchase orders for a specific supplier and filtering by purchase order status.
 
 CREATE INDEX idx_purchase_orders_supplier_status
 ON Purchase_Orders(supplier_id, purchase_order_status);
 
 
-INDEX: idx_customers_customer_type — Improves filtering and grouping of customers based on customer type.
+-- INDEX: idx_customers_customer_type — Improves filtering and grouping of customers based on customer type.
 
 CREATE INDEX idx_customers_customer_type
 ON Customers(customer_type);
 
 
-INDEX: idx_customers_customer_name — Improves searches and retrieval of customer records based on customer name.
+-- INDEX: idx_customers_customer_name — Improves searches and retrieval of customer records based on customer name.
 
 CREATE INDEX idx_customers_customer_name
 ON Customers(customer_name);
 
 
 
-VIEWS
+-- VIEWS
 
-LSCMIS was designed with 9 views to help optimize recurring business operational needs.
-Below is the schema for each view, together with its purpose.
+-- LSCMIS was designed with 9 views to help optimize recurring business operational needs.
+-- Below is the schema for each view, together with its purpose.
 
-VIEW: warehouse_utilization — Monitors warehouse capacity, current utilization, available capacity, and utilization status.
+-- VIEW: warehouse_utilization — Monitors warehouse capacity, current utilization, available capacity, and utilization status.
+
 CREATE VIEW warehouse_utilization AS
 SELECT
     id AS warehouse_id,
@@ -1893,7 +1991,7 @@ FROM warehouses
 WHERE maximum_storage_capacity > 0;
 
 
-VIEW: inventory_risk — Identifies inventory risks based on stock levels, reorder levels, damage, expiry, and item condition.
+-- VIEW: inventory_risk — Identifies inventory risks based on stock levels, reorder levels, damage, expiry, and item condition.
 
 CREATE VIEW inventory_risk AS
 WITH damage_summary AS (
@@ -2030,7 +2128,7 @@ SELECT
 FROM risk_metrics;
 
 
-VIEW: cash_flow_monitoring — Monitors cash inflows and outflows to provide an overview of the company’s cash-flow position.
+-- VIEW: cash_flow_monitoring — Monitors cash inflows and outflows to provide an overview of the company’s cash-flow position.
 
 CREATE VIEW cash_flow_monitoring AS
 WITH inflows AS (
@@ -2103,7 +2201,7 @@ LEFT JOIN outflows o
     ON o.flow_date = fd.flow_date;
 
 
-VIEW: transport_asset_liability — Monitors transport assets and their related liabilities, including maintenance, insurance, and registration.
+-- VIEW: transport_asset_liability — Monitors transport assets and their related liabilities, including maintenance, insurance, and registration.
 
 CREATE VIEW transport_asset_liability AS
 SELECT
@@ -2193,7 +2291,7 @@ LEFT JOIN (
     ON i.transport_asset_id = ta.id;
 
 
-VIEW: supplier_performance — Evaluates supplier performance based on procurement, delivery, and receiving information.
+-- VIEW: supplier_performance — Evaluates supplier performance based on procurement, delivery, and receiving information.
 
 CREATE VIEW supplier_performance AS
 WITH evaluations AS (
@@ -2389,7 +2487,7 @@ LEFT JOIN receiving r
     ON r.supplier_id = s.id;
 
 
-VIEW: customer_satisfaction — Provides information for monitoring customer satisfaction based on customer feedback and related service information.
+-- VIEW: customer_satisfaction — Provides information for monitoring customer satisfaction based on customer feedback and related service information.
 
 CREATE VIEW customer_satisfaction AS
 WITH feedback_summary AS (
@@ -2512,7 +2610,7 @@ LEFT JOIN feedback_summary fs
     ON fs.customer_id = c.id;
 
 
-VIEW: inventory_movement — Tracks inventory movements, including receipts, returns, issues, damage, losses, and write-offs.
+-- VIEW: inventory_movement — Tracks inventory movements, including receipts, returns, issues, damage, losses, and write-offs.
 
 CREATE VIEW inventory_movement AS
 SELECT
@@ -2604,7 +2702,7 @@ GROUP BY
     ci.item_category;
 
 
-VIEW: department_budget_expenses_performance — Compares departmental budgets with actual expenses to monitor budget utilization and spending performance.
+-- VIEW: department_budget_expenses_performance — Compares departmental budgets with actual expenses to monitor budget utilization and spending performance.
 
 CREATE VIEW department_budget_expenses_performance AS
 WITH budget_summary AS (
@@ -2722,7 +2820,7 @@ LEFT JOIN expense_summary e
     ON e.department_id = d.id;
 
 
-VIEW: shipment_performance — Analyses shipment performance by monitoring delivery activities, delays, and service-level performance.
+-- VIEW: shipment_performance — Analyses shipment performance by monitoring delivery activities, delays, and service-level performance.
 
 CREATE VIEW shipment_performance AS
 WITH item_summary AS (
@@ -2893,11 +2991,11 @@ LEFT JOIN tracking_summary t
 
 
 
-TRIGGERS
-LSCMIS was designed with 14 triggers to help automation of key business operations.
-Below is the schema for each trigger, together with its purpose.
+-- TRIGGERS
+-- LSCMIS was designed with 14 triggers to help automation of key business operations.
+-- Below is the schema for each trigger, together with its purpose.
 
-TRIGGER: trg_risk_assessment_immediate_action — Automatically records high or critical risk assessments that require management attention.
+-- TRIGGER: trg_risk_assessment_immediate_action — Automatically records high or critical risk assessments that require management attention.
 
 CREATE TRIGGER trg_risk_assessment_immediate_action
 AFTER INSERT ON risk_assessments
@@ -2930,7 +3028,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_compliance_assessment_immediate_action — Automatically records significant non-compliance cases that require corrective action.
+-- TRIGGER: trg_compliance_assessment_immediate_action — Automatically records significant non-compliance cases that require corrective action.
 
 CREATE TRIGGER trg_compliance_assessment_immediate_action
 AFTER INSERT ON compliance_assessments
@@ -2964,7 +3062,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_insurance_policy_immediate_action — Automatically monitors insurance policies for expiry and pending renewal conditions.
+-- TRIGGER: trg_insurance_policy_immediate_action — Automatically monitors insurance policies for expiry and pending renewal conditions.
 
 CREATE TRIGGER trg_insurance_policy_immediate_action
 AFTER UPDATE OF policy_status, policy_expiry_date
@@ -3004,7 +3102,7 @@ BEGIN
 END;
 
 
-TRIGGER:trg_environmental_impact_immediate_action — Automatically records environmental assessments that require management attention.
+-- TRIGGER:trg_environmental_impact_immediate_action — Automatically records environmental assessments that require management attention.
 
 CREATE TRIGGER trg_environmental_impact_immediate_action
 AFTER INSERT ON environmental_impact_assessments
@@ -3037,7 +3135,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_transport_asset_critical_condition — Automatically monitors critical transport asset conditions, expired insurance or registration, and overdue maintenance.
+-- TRIGGER: trg_transport_asset_critical_condition — Automatically monitors critical transport asset conditions, expired insurance or registration, and overdue maintenance.
 
 CREATE TRIGGER trg_transport_asset_critical_condition
 AFTER UPDATE OF
@@ -3099,7 +3197,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_expiring_inventory_status — Automatically changes company inventory_status to expired when its expiry date is reached or passed.
+-- TRIGGER: trg_expiring_inventory_status — Automatically changes company inventory_status to expired when its expiry date is reached or passed.
 
 CREATE TRIGGER trg_expiring_inventory_status
 AFTER UPDATE OF expiry_date
@@ -3114,7 +3212,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_employee_department_history — Automatically updates employee department history when an employee is transferred to another department.
+-- TRIGGER: trg_employee_department_history — Automatically updates employee department history when an employee is transferred to another department.
 
 CREATE TRIGGER trg_employee_department_history
 AFTER UPDATE OF department_id
@@ -3149,7 +3247,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_critical_payment_change_audit — Automatically records significant changes in payment status for audit purposes.
+-- TRIGGER: trg_critical_payment_change_audit — Automatically records significant changes in payment status for audit purposes.
 
 CREATE TRIGGER trg_critical_payment_change_audit
 AFTER UPDATE OF payment_status
@@ -3188,7 +3286,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_inventory_transaction_synchronization — Automatically updates inventory-location quantities when qualifying inventory transactions occur.
+-- TRIGGER: trg_inventory_transaction_synchronization — Automatically updates inventory-location quantities when qualifying inventory transactions occur.
 
 CREATE TRIGGER trg_inventory_transaction_synchronization
 AFTER INSERT ON inventory_transactions
@@ -3277,7 +3375,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_purchase_order_receiving_status — Automatically updates purchase order receiving status based on the goods received.
+-- TRIGGER: trg_purchase_order_receiving_status — Automatically updates purchase order receiving status based on the goods received.
 
 CREATE TRIGGER trg_purchase_order_receiving_status
 AFTER INSERT ON goods_received
@@ -3348,7 +3446,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_shipment_status_change_audit — Automatically records significant shipment status changes for audit purposes.
+-- TRIGGER: trg_shipment_status_change_audit — Automatically records significant shipment status changes for audit purposes.
 
 CREATE TRIGGER trg_shipment_status_change_audit
 AFTER UPDATE OF shipment_status
@@ -3381,7 +3479,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_customer_credit_exposure_invoice — Automatically monitors customer credit exposure when invoices affect outstanding balances.
+-- TRIGGER: trg_customer_credit_exposure_invoice — Automatically monitors customer credit exposure when invoices affect outstanding balances.
 
 CREATE TRIGGER trg_customer_credit_exposure_invoice
 AFTER INSERT ON invoices
@@ -3472,7 +3570,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_customer_credit_exposure_payment — Automatically monitors customer credit exposure when relevant payment status changes occur.
+-- TRIGGER: trg_customer_credit_exposure_payment — Automatically monitors customer credit exposure when relevant payment status changes occur.
 
 CREATE TRIGGER trg_customer_credit_exposure_payment
 AFTER UPDATE OF payment_status ON payments
@@ -3556,7 +3654,7 @@ BEGIN
 END;
 
 
-TRIGGER: trg_inventory_replenishment_monitoring — Automatically records an audit event when inventory reaches or falls below its reorder level.
+-- TRIGGER: trg_inventory_replenishment_monitoring — Automatically records an audit event when inventory reaches or falls below its reorder level.
 
 CREATE TRIGGER trg_inventory_replenishment_monitoring
 AFTER UPDATE OF quantity
