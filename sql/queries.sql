@@ -107,32 +107,30 @@ SELECT
     company_inventory_code,
     item_name,
     item_category,
-
     current_quantity_level,
     reorder_level,
     maximum_quantity_level,
-
     damaged_quantity,
     damaged_percentage,
-
     expired_quantity,
     expired_percentage,
-
+    expiry_risk_status,
+    damage_risk_status,
+    stock_level_status,
     inventory_risk_status
-
 FROM inventory_risk
-
 WHERE inventory_risk_status IN (
     'Critical',
-    'High',
+    'Attention Required',
+    'Low Stock',
     'Overstocked'
 )
-
 ORDER BY
     CASE inventory_risk_status
         WHEN 'Critical' THEN 1
-        WHEN 'High' THEN 2
-        WHEN 'Overstocked' THEN 3
+        WHEN 'Attention Required' THEN 2
+        WHEN 'Low Stock' THEN 3
+        WHEN 'Overstocked' THEN 4
     END,
     damaged_percentage DESC,
     expired_percentage DESC;

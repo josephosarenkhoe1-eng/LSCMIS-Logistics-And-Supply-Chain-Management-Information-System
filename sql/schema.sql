@@ -1993,18 +1993,23 @@ WHERE maximum_storage_capacity > 0;
 
 -- VIEW: inventory_risk — Identifies inventory risks based on stock levels, reorder levels, damage, expiry, and item condition.
 
+
 CREATE VIEW inventory_risk AS
+
 WITH damage_summary AS (
     SELECT
         company_inventory_id,
 
-        COALESCE(SUM(
-            CASE
-                WHEN transaction_type = 'Damage'
-                THEN quantity
-                ELSE 0
-            END
-        ), 0) AS damaged_quantity
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN transaction_type = 'Damage'
+                    THEN quantity
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS damaged_quantity
 
     FROM inventory_transactions
 
@@ -2046,6 +2051,7 @@ inventory_metrics AS (
             0
         ) AS damaged_quantity,
 
+        -- Damage percentage based on quantity received
         CASE
             WHEN ci.quantity_received > 0
             THEN ROUND(
@@ -2056,9 +2062,10 @@ inventory_metrics AS (
             ELSE 0
         END AS damaged_percentage,
 
+        -- Expired stock for the specific inventory batch
         CASE
-            WHEN DATE(ci.expiry_date) <= DATE('now')
-                 AND COALESCE(cs.current_quantity_level, 0) > 0
+            WHEN ci.expiry_date IS NOT NULL
+                 AND DATE(ci.expiry_date) <= DATE('now')
             THEN COALESCE(cs.current_quantity_level, 0)
             ELSE 0
         END AS expired_quantity
@@ -2076,6 +2083,7 @@ risk_metrics AS (
     SELECT
         *,
 
+        -- Expired percentage based on current stock
         CASE
             WHEN current_quantity_level > 0
             THEN ROUND(
@@ -2087,6 +2095,46 @@ risk_metrics AS (
         END AS expired_percentage
 
     FROM inventory_metrics
+),
+
+classified_inventory AS (
+    SELECT
+        *,
+
+        -- Independent stock-level classification
+        CASE
+            WHEN current_quantity_level <= reorder_level
+                THEN 'Low Stock'
+
+            WHEN current_quantity_level >= maximum_quantity_level
+                THEN 'Overstocked'
+
+            ELSE 'Within Range'
+        END AS stock_level_status,
+
+        -- Independent expiry risk classification
+        CASE
+            WHEN expired_percentage >= 10
+                THEN 'Critical'
+
+            WHEN expired_percentage > 0
+                THEN 'Attention Required'
+
+            ELSE 'No Expiry Risk'
+        END AS expiry_risk_status,
+
+        -- Independent damage risk classification
+        CASE
+            WHEN damaged_percentage >= 10
+                THEN 'Critical'
+
+            WHEN damaged_percentage > 0
+                THEN 'Attention Required'
+
+            ELSE 'No Recorded Damage'
+        END AS damage_risk_status
+
+    FROM risk_metrics
 )
 
 SELECT
@@ -2094,38 +2142,51 @@ SELECT
     company_inventory_code,
     item_name,
     item_category,
+    quantity_received,
     current_quantity_level,
     reorder_level,
     maximum_quantity_level,
+
+    -- Stock-level classification
+    stock_level_status,
+
     inventory_status,
     item_condition,
     expiry_date,
+    lot_number,
+
+    -- Damage metrics
     damaged_quantity,
     damaged_percentage,
+
+    -- Expiry metrics
     expired_quantity,
     expired_percentage,
+    expiry_risk_status,
 
+    -- Damage risk classification
+    damage_risk_status,
+
+    -- Combined summary of inventory risk
     CASE
-        WHEN damaged_percentage >= 10
-             OR expired_percentage >= 10
+        WHEN damage_risk_status = 'Critical'
+             OR expiry_risk_status = 'Critical'
             THEN 'Critical'
 
-        WHEN current_quantity_level <= reorder_level
-            THEN 'High'
+        WHEN damage_risk_status = 'Attention Required'
+             OR expiry_risk_status = 'Attention Required'
+            THEN 'Attention Required'
 
-        WHEN item_condition IN (
-            'Damaged',
-            'Compromised'
-        )
-            THEN 'High'
+        WHEN stock_level_status = 'Low Stock'
+            THEN 'Low Stock'
 
-        WHEN current_quantity_level >= maximum_quantity_level
+        WHEN stock_level_status = 'Overstocked'
             THEN 'Overstocked'
 
         ELSE 'Normal'
     END AS inventory_risk_status
 
-FROM risk_metrics;
+FROM classified_inventory;
 
 
 -- VIEW: cash_flow_monitoring — Monitors cash inflows and outflows to provide an overview of the company’s cash-flow position.
