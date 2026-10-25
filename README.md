@@ -10,13 +10,14 @@ A relational database system designed to support the core operational, managemen
 4. [Main Business Areas](#main-business-areas)
 5. [Database Design Features](#database-design-features)
 6. [Business Intelligence Examples](#business-intelligence-examples)
-7. [Entity Relationship Diagram](#entity-relationship-diagram)
-8. [Data Integrity and Validation](#data-integrity-and-validation)
-9. [Project Files](#project-files)
-10. [Getting Started](#getting-started)
-11. [Limitations](#limitation)
-12. [Future Development](#future-development)
-13. [Conclusion](#conclusion)
+7. [Technology](#technology)
+8. [Project Files](#project-files)
+9. [Entity Relationship Diagram](#entity-relationship-diagram)
+10. [Data Integrity and Validation](#data-integrity-and-validation)
+11. [Optimization and Effective Database Management](#optimization-and-effective-database-management)
+12. [Limitations](#limitations)
+13. [Future Development](#future-development)
+14. [Conclusion](#conclusion)
 
 
 PROJECT OVERVIEW
