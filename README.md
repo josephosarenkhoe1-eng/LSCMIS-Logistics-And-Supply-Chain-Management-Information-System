@@ -275,7 +275,7 @@ The indexes were primarily designed to improve query performance, while the view
 CTEs were also used to make complex SQL queries clearer, more organized, and easier to maintain.
 
 
-## LIMITATION
+## LIMITATIONS
 
 Although LSCMIS covers a broad range of logistics and supply chain operations, some capabilities are outside the current scope of the project.
 
