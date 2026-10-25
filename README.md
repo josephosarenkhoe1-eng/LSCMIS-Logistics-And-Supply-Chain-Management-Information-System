@@ -20,7 +20,7 @@ A relational database system designed to support the core operational, managemen
 14. [Conclusion](#conclusion)
 
 
-##PROJECT OVERVIEW
+## PROJECT OVERVIEW
 
 The Logistics & Supply Chain Management Information System (LSCMIS) is a relational database designed to centralize and manage important logistics and supply chain operations within a structured database environment.
 
@@ -32,7 +32,7 @@ By bringing related business information into one relational system, LSCMIS help
 
 
 
-##BUSINESS REQUIREMENTS AND BUSINESS INTELLIGENCE
+## BUSINESS REQUIREMENTS AND BUSINESS INTELLIGENCE
 
 The design of LSCMIS was informed by a broad set of logistics and supply chain business requirements and management questions.
 
@@ -71,7 +71,7 @@ The following are five examples of high-impact business intelligence questions**
 These five questions are examples of the analytical capability of the database and are not intended to represent the complete set of business intelligence requirements**.
 
 
-##DATABASE STRUCTURE
+## DATABASE STRUCTURE
 
 The LSCMIS database contains 37 relational tables/entities designed to represent the major business operations of a logistics and supply chain organization.
 
@@ -89,7 +89,7 @@ The complete entity structure, attributes, relationships, constraints, and desig
 
 
 
-##MAIN BUSINESS AREAS
+## MAIN BUSINESS AREAS
 
 The database covers the following major areas:
 
@@ -128,7 +128,7 @@ Supports audit logging and automated monitoring of significant operational event
 
 
 
-##DATABASE DESIGN FEATURES
+## DATABASE DESIGN FEATURES
 
 The database uses several relational database techniques to improve data integrity, maintainability, performance, monitoring, and analytical capability.
 
@@ -204,7 +204,7 @@ CTEs are used in complex queries to break data processing into meaningful stages
 They improve the organization, readability, and maintainability of queries involving multiple calculations, aggregations, and intermediate results.
 
 
-##BUSINESS INTELLIGENCE EXAMPLES
+## BUSINESS INTELLIGENCE EXAMPLES
 
 The project includes SQL queries demonstrating how the database can answer management questions.
 
@@ -221,7 +221,7 @@ Cash-flow analysis can identify dates where cash outflows exceed cash inflows.
 These examples demonstrate how the relational database can move beyond data storage and provide information that can support operational and management decisions.
 
 
-##TECHNOLOGY
+## TECHNOLOGY
 
 The project was implemented using:
 
@@ -234,7 +234,7 @@ SQLite was selected as the database management system for this project because i
 
 
 
-##PROJECT FILES
+## PROJECT FILES
 
 The repository contains the following main project files:
 
@@ -249,14 +249,14 @@ LSCMIS_ERD.png - Entity Relationship Diagram showing the structure and relations
 LSCMIS.db → the actual SQLite database containing the sample data for practical analysis and demonstration.
 
 
-##ENTITY RELATIONSHIP DIAGRAM
+## ENTITY RELATIONSHIP DIAGRAM
 
 The complete Entity Relationship Diagram for LSCMIS is provided below.
 
 ![LSCMIS Entity Relationship Diagram](LSCMIS_ERD.png)
 
 
-##DATA INTEGIRTY AND VALIDATION
+## DATA INTEGIRTY AND VALIDATION
 
 The database was designed with data integrity as an important consideration.
 
@@ -266,7 +266,7 @@ The database also uses triggers to automatically respond to selected operational
 
 
 
-##OPTIMIZATION AND EFFECTIVE DATABASE MANAGEMENT
+## OPTIMIZATION AND EFFECTIVE DATABASE MANAGEMENT
 
 The project includes **10 indexes, 9 views, and 14 triggers** to improve the effectiveness and management of the database.
 
@@ -275,7 +275,7 @@ The indexes were primarily designed to improve query performance, while the view
 CTEs were also used to make complex SQL queries clearer, more organized, and easier to maintain.
 
 
-##LIMITATION
+## LIMITATION
 
 Although LSCMIS covers a broad range of logistics and supply chain operations, some capabilities are outside the current scope of the project.
 
@@ -299,7 +299,7 @@ These areas can be considered potential future enhancements.
 Another limitation is the use of SQLite. While SQLite is appropriate for this project, it may not be the best choice for a very large organization requiring many simultaneous users and concurrent database updates.
 
 
-##FUTURE DEVELOPMENT
+## FUTURE DEVELOPMENT
 
 Potential future development could include:
 
@@ -315,7 +315,7 @@ Potential future development could include:
 
 
 
-##CONCLUSION
+## CONCLUSION
 
 LSCMIS was designed as a structured relational database solution for managing and analysing important logistics and supply chain operations.
 
