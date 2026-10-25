@@ -2,6 +2,23 @@ LOGISTICS & SUPPLY CHAIN MANAGEMENT INFORMATION SYSTEM (LSCMIS)
 
 A relational database system designed to support the core operational, management, reporting, and business intelligence needs of a logistics and supply chain organization using SQLite.
 
+## Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Business Requirements and Business Intelligence](#business-requirements-and-business-intelligence)
+3. [Database Structure](#database-structure)
+4. [Main Business Areas](#main-business-areas)
+5. [Database Design Features](#database-design-features)
+6. [Business Intelligence Examples](#business-intelligence-examples)
+7. [Entity Relationship Diagram](#entity-relationship-diagram)
+8. [Data Integrity and Validation](#data-integrity-and-validation)
+9. [Project Files](#project-files)
+10. [Getting Started](#getting-started)
+11. [Limitations](#limitation)
+12. [Future Development](#future-development)
+13. [Conclusion](#conclusion)
+
+
 PROJECT OVERVIEW
 
 The Logistics & Supply Chain Management Information System (LSCMIS) is a relational database designed to centralize and manage important logistics and supply chain operations within a structured database environment.
